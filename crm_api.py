@@ -10,9 +10,10 @@ def get_closed_pipelines(last_time):
     common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
     uid = common.authenticate(db, username, password, {})
     models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
-    return models.execute_kw(db, uid, password,
+    closed_pipelines = models.execute_kw(db, uid, password,
                              'crm.lead', 'search_read', [[['stage_id', '=', 4], ['date_closed', '>', last_time]]],
                              {'fields': ['name', 'date_closed', 'stage_id']})
+    return closed_pipelines
 
 
 def get_time_for_last_closed_pipeline():
@@ -30,7 +31,7 @@ def put_time_for_last_closed_pipeline(time_last_closed_pipeline):
 
 
 def write_logfile(log_text):
-    with open('log_closed_pipeline.txt', 'w+') as file:
+    with open('log_closed_pipeline.txt', 'w+', encoding='utf-8') as file:
         file.write(log_text)
 
 
@@ -51,5 +52,5 @@ def look_for_new_closed_pipelines(time_last_closed_pipeline):
 if __name__ == "__main__":
     while True:
         look_for_new_closed_pipelines(get_time_for_last_closed_pipeline())
-        time.sleep(10)
+        time.sleep(2)
 
