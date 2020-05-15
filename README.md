@@ -1,5 +1,5 @@
 # odoo_crm
-Тестовое задание ODOO 11 + CRM + Telegram bot
+ODOO 11 + CRM + Telegram bot
 
 Название телеграм бота: odoo_deal_completed
 
